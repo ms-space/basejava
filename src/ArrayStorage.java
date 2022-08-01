@@ -3,68 +3,61 @@
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
+    private int size = size();
 
     void clear() {
-        for (int i = 0, s = size(); i < s; i++) {
+        for (int i = 0; i < size; i++) {
             storage[i] = null;
         }
+        size = 0;
     }
 
     void save(Resume r) {
-        int indResume = getIndexResume(r.uuid);
-        if (indResume == -2) {
+        int index = getIndexResume(r.uuid);
+        if (index == -2) {
             System.out.println("Не удалось сохранить резюме. Не задан uuid.");
             return;
-        } else if (indResume >= 0) {
+        } else if (index >= 0) {
             System.out.println("Не удалось сохранить резюме, uuid: " + r.uuid + " . Данный uuid зарегистрирован в базе.");
             return;
         }
-        try {
-            storage[size()] = r;
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("В базе нет места для сохранения резюме: " + r.uuid);
-        }
+        storage[size] = r;
+        size++;
     }
 
     Resume get(String uuid) {
-        int indResume = getIndexResume(uuid);
-        if (indResume == -1) {
+        int index = getIndexResume(uuid);
+        if (index == -1) {
             System.out.println("Резюме с uuid: " + uuid + " не найдено.");
             return null;
-        } else if (indResume == -2) {
+        } else if (index == -2) {
             System.out.println("Не задан uuid. Повторите ввод.");
             return null;
         }
-        return storage[indResume];
+        return storage[index];
     }
 
     void delete(String uuid) {
-        int indResume = getIndexResume(uuid);
-        if (indResume == -1) {
+        int index = getIndexResume(uuid);
+        if (index == -1) {
             System.out.println("Удаление невозможно, резюме с uuid: " + uuid + " не найдено.");
             return;
-        } else if (indResume == -2) {
+        } else if (index == -2) {
             System.out.println("Не задан uuid. Повторите ввод.");
             return;
         }
-
-        int sizeResume = size();
-        if (sizeResume == 1) {
-            storage[indResume] = null;
-        } else {
-            storage[indResume] = storage[sizeResume - 1];
-            storage[sizeResume - 1] = null;
-
-        }
+        storage[index] = storage[size - 1];
+        storage[size - 1] = null;
+        size--;
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        Resume[] resumeBuffer = new Resume[size()];
-        System.arraycopy(storage, 0, resumeBuffer, 0, resumeBuffer.length);
-        return resumeBuffer;
+        Resume[] allResume = new Resume[size];
+        System.arraycopy(storage, 0, allResume, 0, allResume.length);
+        return allResume;
     }
 
     int size() {
@@ -85,7 +78,7 @@ public class ArrayStorage {
         if (uuid == null) {
             return -2;
         }
-        for (int i = 0, s = size(); i < s; i++) {
+        for (int i = 0; i < size; i++) {
             if ((storage[i].uuid).equals(uuid)) {
                 return i;
             }
