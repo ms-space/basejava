@@ -3,7 +3,7 @@
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
-    private int size = size();
+    private int size;
 
     void clear() {
         for (int i = 0; i < size; i++) {
@@ -17,7 +17,8 @@ public class ArrayStorage {
         if (index == -2) {
             System.out.println("Не удалось сохранить резюме. Не задан uuid.");
             return;
-        } else if (index >= 0) {
+        }
+        if (index >= 0) {
             System.out.println("Не удалось сохранить резюме, uuid: " + r.uuid + " . Данный uuid зарегистрирован в базе.");
             return;
         }
@@ -30,7 +31,8 @@ public class ArrayStorage {
         if (index == -1) {
             System.out.println("Резюме с uuid: " + uuid + " не найдено.");
             return null;
-        } else if (index == -2) {
+        }
+        if (index == -2) {
             System.out.println("Не задан uuid. Повторите ввод.");
             return null;
         }
@@ -42,7 +44,8 @@ public class ArrayStorage {
         if (index == -1) {
             System.out.println("Удаление невозможно, резюме с uuid: " + uuid + " не найдено.");
             return;
-        } else if (index == -2) {
+        }
+        if (index == -2) {
             System.out.println("Не задан uuid. Повторите ввод.");
             return;
         }
@@ -61,12 +64,7 @@ public class ArrayStorage {
     }
 
     int size() {
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] == null) {
-                return i;
-            }
-        }
-        return storage.length;
+        return size;
     }
 
     /**
