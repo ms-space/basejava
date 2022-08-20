@@ -4,51 +4,24 @@ import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
 
-import static java.lang.Math.abs;
-
 public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
-    public void update(Resume r) {
-        int index = getIndex(r.getUuid());
-        if (index < 0) {
-            System.out.println("Resume " + r.getUuid() + " not exist");
-        } else {
-            storage[index] = r;
+    protected void deleteLogic(int index) {
+        for (int i = index; i < size; i++) {
+            storage[i] = storage[i + 1];
         }
     }
 
     @Override
-    public void save(Resume r) {
-        int index = getIndex(r.getUuid());
-        if (index >= 0) {
-            System.out.println("Resume " + r.getUuid() + " already exist");
-        } else if (abs(index) >= STORAGE_LIMIT) {
-            System.out.println("Storage overflow");
-        } else {
-            int index0 = abs(index) - 1;
-            Resume tmp = storage[index0];
-            storage[index0] = r;
-            for (int i = size; i > index0; i--) {
-                storage[i] = storage[i - 1];
-            }
-            storage[index0 + 1] = tmp;
-            size++;
+    protected void addResume(Resume r, int index) {
+        int index0 = -index - 1;
+        Resume tmp = storage[index0];
+        storage[index0] = r;
+        for (int i = size; i > index0; i--) {
+            storage[i] = storage[i - 1];
         }
-    }
-
-    @Override
-    public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            System.out.println("Resume " + uuid + " not exist");
-        } else {
-            for (int i = index; i < size; i++) {
-                storage[i] = storage[i + 1];
-            }
-            storage[size] = null;
-            size--;
-        }
+        storage[index0 + 1] = tmp;
     }
 
     @Override
