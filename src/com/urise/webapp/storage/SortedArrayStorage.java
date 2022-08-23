@@ -7,7 +7,7 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected void deleteLogic(int index) {
+    protected void deleteResume(int index) {
         for (int i = index; i < size; i++) {
             storage[i] = storage[i + 1];
         }
@@ -15,13 +15,9 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected void addResume(Resume r, int index) {
-        int index0 = -index - 1;
-        Resume tmp = storage[index0];
-        storage[index0] = r;
-        for (int i = size; i > index0; i--) {
-            storage[i] = storage[i - 1];
-        }
-        storage[index0 + 1] = tmp;
+        int insertionIndex = -index - 1;
+        System.arraycopy(storage, insertionIndex, storage, insertionIndex + 1, size);
+        storage[insertionIndex] = r;
     }
 
     @Override
