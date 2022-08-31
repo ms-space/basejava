@@ -4,11 +4,11 @@ import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import static com.urise.webapp.storage.AbstractArrayStorage.STORAGE_LIMIT;
+import static org.junit.Assert.*;
 
 public abstract class AbstractArrayStorageTest {
     private final Storage storage;
@@ -26,7 +26,7 @@ public abstract class AbstractArrayStorageTest {
     }
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         storage.clear();
         storage.save(RESUME_1);
         storage.save(RESUME_2);
@@ -42,13 +42,13 @@ public abstract class AbstractArrayStorageTest {
     public void clear() {
         storage.clear();
         assertSize(0);
-        Assert.assertArrayEquals(new Resume[]{}, storage.getAll());
+        assertArrayEquals(new Resume[]{}, storage.getAll());
     }
 
     @Test
     public void update() {
         storage.update(RESUME_1);
-        Assert.assertSame(RESUME_1, storage.get(RESUME_1.getUuid()));
+        assertSame(RESUME_1, storage.get(RESUME_1.getUuid()));
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -58,8 +58,10 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void getAll() {
-        Resume[] arr = new Resume[]{RESUME_1, RESUME_2, RESUME_3};
-        assertSize(arr.length);
+        Resume[] expected = new Resume[]{RESUME_1, RESUME_2, RESUME_3};
+        assertSize(expected.length);
+        assertArrayEquals(expected, storage.getAll());
+
     }
 
     @Test
@@ -82,7 +84,7 @@ public abstract class AbstractArrayStorageTest {
                 storage.save(new Resume());
             }
         } catch (StorageException e) {
-            Assert.fail("Overflow happened ahead of time\n" +
+            fail("Overflow happened ahead of time\n" +
                     "STORAGE_LIMIT = " + STORAGE_LIMIT + "\n" +
                     e.getMessage());
         }
@@ -114,10 +116,10 @@ public abstract class AbstractArrayStorageTest {
     }
 
     private void assertSize(int size) {
-        Assert.assertEquals(size, storage.size());
+        assertEquals(size, storage.size());
     }
 
     private void assertGet(Resume resume) {
-        Assert.assertEquals(resume, storage.get(resume.getUuid()));
+        assertEquals(resume, storage.get(resume.getUuid()));
     }
 }
