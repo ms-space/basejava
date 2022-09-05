@@ -15,23 +15,23 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public void update(Resume r) {
-        storage.set(getExistIndex(r.getUuid()), r);
+    public void doUpdate(Resume r, Object index) {
+        storage.set((Integer) index, r);
     }
 
     @Override
-    public void save(Resume r) {
-        storage.add(checkNotExist(r));
+    public void doSave(Resume r, Object searchKey) {
+        storage.add(r);
     }
 
     @Override
-    public Resume get(String uuid) {
-        return storage.get(getExistIndex(uuid));
+    public Resume doGet(Object index) {
+        return storage.get((Integer) index);
     }
 
     @Override
-    public void delete(String uuid) {
-        storage.remove(getExistIndex(uuid));
+    public void doDelete(Object index) {
+        storage.remove(((Integer) index).intValue());
     }
 
     @Override
@@ -45,9 +45,14 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected int getIndex(String uuid) {
+    protected Integer getSearchKey(String uuid) {
         Resume searchObject = new Resume(uuid);
         return storage.indexOf(searchObject);
+    }
+
+    @Override
+    protected boolean isExist(Object searchKey) {
+        return (Integer) searchKey >= 0;
     }
 
 
