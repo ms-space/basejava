@@ -2,58 +2,58 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class ListStorage extends AbstractStorage {
-
-    protected List<Resume> storage = new ArrayList<>();
-
-    @Override
-    public void clear() {
-        storage.clear();
-    }
-
-    @Override
-    public void doUpdate(Resume r, Object index) {
-        storage.set((Integer) index, r);
-    }
-
-    @Override
-    public void doSave(Resume r, Object searchKey) {
-        storage.add(r);
-    }
-
-    @Override
-    public Resume doGet(Object index) {
-        return storage.get((Integer) index);
-    }
-
-    @Override
-    public void doDelete(Object index) {
-        storage.remove(((Integer) index).intValue());
-    }
-
-    @Override
-    public Resume[] getAll() {
-        return storage.toArray(new Resume[0]);
-    }
-
-    @Override
-    public int size() {
-        return storage.size();
-    }
+    private List<Resume> list = new ArrayList<>();
 
     @Override
     protected Integer getSearchKey(String uuid) {
-        Resume searchObject = new Resume(uuid);
-        return storage.indexOf(searchObject);
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getUuid().equals(uuid)) {
+                return i;
+            }
+        }
+        return null;
     }
 
     @Override
     protected boolean isExist(Object searchKey) {
-        return (Integer) searchKey >= 0;
+        return searchKey != null;
     }
 
+    @Override
+    protected void doUpdate(Resume r, Object searchKey) {
+        list.set((Integer) searchKey, r);
+    }
 
+    @Override
+    protected void doSave(Resume r, Object searchKey) {
+        list.add(r);
+    }
+
+    @Override
+    protected Resume doGet(Object searchKey) {
+        return list.get((Integer) searchKey);
+    }
+
+    @Override
+    protected void doDelete(Object searchKey) {
+        list.remove(((Integer) searchKey).intValue());
+    }
+
+    @Override
+    public void clear() {
+        list.clear();
+    }
+
+    @Override
+    public List<Resume> doGetAllSorted() {
+        return new ArrayList<>(list);
+    }
+
+    @Override
+    public int size() {
+        return list.size();
+    }
 }
