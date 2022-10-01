@@ -3,11 +3,11 @@ package com.urise.webapp.model;
 import java.util.List;
 import java.util.Objects;
 
-public class Organizations {
+public class Organization {
     private final String name;
     private final List<Period> period;
 
-    public Organizations(String name, List<Period> period) {
+    public Organization(String name, List<Period> period) {
         this.name = name;
         this.period = period;
     }
@@ -20,8 +20,8 @@ public class Organizations {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Organizations that = (Organizations) o;
-        return name.equals(that.name) && period.equals(that.period);
+        Organization that = (Organization) o;
+        return Objects.equals(name, that.name) && Objects.equals(period, that.period);
     }
 
     @Override
