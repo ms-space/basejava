@@ -1,9 +1,8 @@
 package com.urise.webapp.model;
 
 import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ResumeTestData {
     static List<String> achievementData = new ArrayList<>();

@@ -5,15 +5,19 @@ import java.util.Objects;
 
 public class Organization {
     private final String name;
-    private final List<Period> period;
+    private final List<Period> periods;
 
-    public Organization(String name, List<Period> period) {
+    public Organization(String name, List<Period> periods) {
         this.name = name;
-        this.period = period;
+        this.periods = periods;
     }
 
     public String getName() {
         return name;
+    }
+
+    public List<Period> getPeriods() {
+        return periods;
     }
 
     @Override
@@ -21,19 +25,19 @@ public class Organization {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Organization that = (Organization) o;
-        return Objects.equals(name, that.name) && Objects.equals(period, that.period);
+        return Objects.equals(name, that.name) && Objects.equals(periods, that.periods);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, period);
+        return Objects.hash(name, periods);
     }
 
     @Override
     public String toString() {
         return "Organizations{" +
                 "name='" + name + '\'' +
-                ", period=" + period +
+                ", period=" + periods +
                 '}';
     }
 }
