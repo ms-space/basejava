@@ -7,6 +7,7 @@ public class ListSection extends AbstractSection {
 private final List<String> items;
 
     public ListSection(List<String> items) {
+        Objects.requireNonNull(items, "items must not be null");
         this.items = items;
     }
 
@@ -19,7 +20,7 @@ private final List<String> items;
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ListSection that = (ListSection) o;
-        return Objects.equals(items, that.items);
+        return items.equals(that.items);
     }
 
     @Override
@@ -29,8 +30,6 @@ private final List<String> items;
 
     @Override
     public String toString() {
-        return "ListSection{" +
-                "items=" + items +
-                '}';
+        return items.toString();
     }
 }

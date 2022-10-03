@@ -7,6 +7,7 @@ public class TextSection extends AbstractSection {
     private final String text;
 
     public TextSection(String text) {
+        Objects.requireNonNull(text, "content must not be null");
         this.text = text;
     }
 
@@ -19,7 +20,7 @@ public class TextSection extends AbstractSection {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TextSection that = (TextSection) o;
-        return Objects.equals(text, that.text);
+        return text.equals(that.text);
     }
 
     @Override
@@ -29,8 +30,6 @@ public class TextSection extends AbstractSection {
 
     @Override
     public String toString() {
-        return "TextSection{" +
-                "text='" + text + '\'' +
-                '}';
+        return text;
     }
 }

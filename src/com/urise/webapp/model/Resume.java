@@ -1,6 +1,9 @@
 package com.urise.webapp.model;
 
-import java.util.*;
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * Initial resume class
@@ -32,6 +35,14 @@ public class Resume implements Comparable<Resume> {
 
     public String getFullName() {
         return fullName;
+    }
+
+    public String getContact(ContactType type) {
+        return contacts.get(type);
+    }
+
+    public AbstractSection getSection(SectionType type) {
+        return sections.get(type);
     }
 
     public Map<ContactType, String> getContacts() {

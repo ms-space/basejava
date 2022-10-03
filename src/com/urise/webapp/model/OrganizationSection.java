@@ -8,6 +8,7 @@ public class OrganizationSection extends AbstractSection {
     private final List<Organization> organizations;
 
     public OrganizationSection(List<Organization> organizations) {
+        Objects.requireNonNull(organizations, "organizations must not be null");
         this.organizations = organizations;
     }
 
@@ -20,7 +21,7 @@ public class OrganizationSection extends AbstractSection {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrganizationSection that = (OrganizationSection) o;
-        return Objects.equals(organizations, that.organizations);
+        return organizations.equals(that.organizations);
     }
 
     @Override
@@ -30,8 +31,6 @@ public class OrganizationSection extends AbstractSection {
 
     @Override
     public String toString() {
-        return "OrganizationSection{" +
-                "organizations=" + organizations +
-                '}';
+        return organizations.toString();
     }
 }

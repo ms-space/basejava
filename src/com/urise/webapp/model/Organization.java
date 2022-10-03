@@ -4,16 +4,18 @@ import java.util.List;
 import java.util.Objects;
 
 public class Organization {
-    private final String name;
+    private final Link homePage;
     private final List<Period> periods;
 
-    public Organization(String name, List<Period> periods) {
-        this.name = name;
+    public Organization(String name, String url, List<Period> periods) {
+        Objects.requireNonNull(name, "name must not be null");
+        Objects.requireNonNull(periods, "periods must not be null");
+        this.homePage = new Link(name, url);
         this.periods = periods;
     }
 
-    public String getName() {
-        return name;
+    public Link getHomePage() {
+        return homePage;
     }
 
     public List<Period> getPeriods() {
@@ -25,19 +27,19 @@ public class Organization {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Organization that = (Organization) o;
-        return Objects.equals(name, that.name) && Objects.equals(periods, that.periods);
+        return homePage.equals(that.homePage) && periods.equals(that.periods);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, periods);
+        return Objects.hash(homePage, periods);
     }
 
     @Override
     public String toString() {
-        return "Organizations{" +
-                "name='" + name + '\'' +
-                ", period=" + periods +
+        return "Organization{" +
+                "homePage=" + homePage +
+                ", periods=" + periods +
                 '}';
     }
 }
