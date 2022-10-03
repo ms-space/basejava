@@ -25,12 +25,19 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     public void clear() {
-        Arrays.stream(directory.listFiles()).forEach(this::doDelete);
+        File[] listFiles = directory.listFiles();
+        if (listFiles != null) {
+            Arrays.stream(listFiles).forEach(this::doDelete);
+        }
     }
 
     @Override
     public int size() {
-        return directory.listFiles().length;
+        File[] listFiles = directory.listFiles();
+        if (listFiles == null) {
+            return 0;
+        }
+        return listFiles.length;
     }
 
     @Override
@@ -73,11 +80,17 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected void doDelete(File file) {
-        file.delete();
+        if (!file.delete()) {
+            throw new StorageException("Error deleted", file.getAbsolutePath());
+        }
     }
 
     @Override
     protected List<Resume> doCopyAll() {
-        return Arrays.stream(directory.listFiles()).map(this::doGet).toList();
+        File[] listFiles = directory.listFiles();
+        if (listFiles == null) {
+            throw new StorageException("Error copy files", null);
+        }
+        return Arrays.stream(listFiles).map(this::doGet).toList();
     }
 }
