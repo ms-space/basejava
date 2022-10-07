@@ -1,18 +1,20 @@
 package com.urise.webapp.model;
 
+import java.io.Serial;
 import java.util.Objects;
 
 public class TextSection extends AbstractSection {
+    @Serial
+    private static final long serialVersionUID = 1L;
+    private final String content;
 
-    private final String text;
-
-    public TextSection(String text) {
-        Objects.requireNonNull(text, "content must not be null");
-        this.text = text;
+    public TextSection(String content) {
+        Objects.requireNonNull(content, "content must not be null");
+        this.content = content;
     }
 
-    public String getText() {
-        return text;
+    public String getContent() {
+        return content;
     }
 
     @Override
@@ -20,16 +22,16 @@ public class TextSection extends AbstractSection {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TextSection that = (TextSection) o;
-        return text.equals(that.text);
+        return content.equals(that.content);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(text);
+        return Objects.hash(content);
     }
 
     @Override
     public String toString() {
-        return text;
+        return content;
     }
 }

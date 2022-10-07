@@ -1,15 +1,15 @@
 package com.urise.webapp.model;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
-/**
- * Initial resume class
- */
-public class Resume implements Comparable<Resume> {
-
+public class Resume implements Comparable<Resume>, Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     // Unique identifier
     private final String uuid;
 
@@ -45,12 +45,12 @@ public class Resume implements Comparable<Resume> {
         return sections.get(type);
     }
 
-    public Map<ContactType, String> getContacts() {
-        return contacts;
+    public void addContact(ContactType type, String value) {
+        contacts.put(type, value);
     }
 
-    public Map<SectionType, AbstractSection> getSections() {
-        return sections;
+    public void addSection(SectionType type, AbstractSection section) {
+        sections.put(type, section);
     }
 
     @Override
