@@ -12,6 +12,9 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.nio.file.StandardOpenOption.APPEND;
+import static java.nio.file.StandardOpenOption.WRITE;
+
 public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     private final Path directory;
 
@@ -53,7 +56,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     protected void doUpdate(Resume r, Path path) {
         try {
-            doWrite(r, new BufferedOutputStream(new FileOutputStream(path.toString())));
+            doWrite(r, new BufferedOutputStream(Files.newOutputStream(path, WRITE, APPEND)));
         } catch (IOException e) {
             throw new StorageException("File write error", r.getUuid(), e);
         }
@@ -67,8 +70,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     protected void doSave(Resume r, Path path) {
         try {
-            File file = new File(path.toString());
-            file.createNewFile();
+            Files.createFile(path);
         } catch (IOException e) {
             throw new StorageException("Couldn't create file " + path.toAbsolutePath(), path.getFileName().toString(), e);
         }
@@ -78,7 +80,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     protected Resume doGet(Path path) {
         try {
-            return doRead(new BufferedInputStream(new FileInputStream(path.toString())));
+            return doRead(new BufferedInputStream((Files.newInputStream(path))));
         } catch (IOException e) {
             throw new StorageException("File read error" + path.toAbsolutePath(), path.getFileName().toString(), e);
         }

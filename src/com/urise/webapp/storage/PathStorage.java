@@ -3,7 +3,9 @@ package com.urise.webapp.storage;
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -11,6 +13,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static java.nio.file.StandardOpenOption.APPEND;
+import static java.nio.file.StandardOpenOption.WRITE;
 
 public class PathStorage extends AbstractStorage<Path> {
 
@@ -53,7 +58,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected void doUpdate(Resume r, Path path) {
         try {
-            strategy.doWrite(r, new BufferedOutputStream(new FileOutputStream(path.toString())));
+            strategy.doWrite(r, new BufferedOutputStream(Files.newOutputStream(path, WRITE, APPEND)));
         } catch (IOException e) {
             throw new StorageException("File write error", r.getUuid(), e);
         }
@@ -67,8 +72,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected void doSave(Resume r, Path path) {
         try {
-            File file = new File(path.toString());
-            file.createNewFile();
+            Files.createFile(path);
         } catch (IOException e) {
             throw new StorageException("Couldn't create file " + path.toAbsolutePath(), path.getFileName().toString(), e);
         }
@@ -78,7 +82,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected Resume doGet(Path path) {
         try {
-            return strategy.doRead(new BufferedInputStream(new FileInputStream(path.toString())));
+            return strategy.doRead(new BufferedInputStream((Files.newInputStream(path))));
         } catch (IOException e) {
             throw new StorageException("File read error" + path.toAbsolutePath(), path.getFileName().toString(), e);
         }
