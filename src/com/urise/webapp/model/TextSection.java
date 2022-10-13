@@ -3,10 +3,14 @@ package com.urise.webapp.model;
 import java.io.Serial;
 import java.util.Objects;
 
-public class TextSection extends AbstractSection {
+public class TextSection extends Section {
     @Serial
     private static final long serialVersionUID = 1L;
-    private final String content;
+
+    private String content;
+
+    public TextSection() {
+    }
 
     public TextSection(String content) {
         Objects.requireNonNull(content, "content must not be null");
@@ -14,6 +18,11 @@ public class TextSection extends AbstractSection {
     }
 
     public String getContent() {
+        return content;
+    }
+
+    @Override
+    public String toString() {
         return content;
     }
 
@@ -28,10 +37,5 @@ public class TextSection extends AbstractSection {
     @Override
     public int hashCode() {
         return Objects.hash(content);
-    }
-
-    @Override
-    public String toString() {
-        return content;
     }
 }

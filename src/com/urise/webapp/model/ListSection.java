@@ -5,11 +5,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class ListSection extends AbstractSection {
+public class ListSection extends Section {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private final List<String> items;
+    private List<String> items;
+
+    public ListSection() {
+    }
 
     public ListSection(String... items) {
         this(Arrays.asList(items));
@@ -25,6 +28,11 @@ public class ListSection extends AbstractSection {
     }
 
     @Override
+    public String toString() {
+        return items.toString();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -35,10 +43,5 @@ public class ListSection extends AbstractSection {
     @Override
     public int hashCode() {
         return Objects.hash(items);
-    }
-
-    @Override
-    public String toString() {
-        return items.toString();
     }
 }
