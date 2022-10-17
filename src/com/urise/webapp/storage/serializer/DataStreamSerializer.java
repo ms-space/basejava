@@ -7,17 +7,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 public class DataStreamSerializer implements StreamSerializer {
-
-    private static Organization.Position getPosition(DataInputStream dis) throws IOException {
-        LocalDate startDate = LocalDate.parse(dis.readUTF());
-        LocalDate endDate = LocalDate.parse(dis.readUTF());
-        String title = dis.readUTF();
-        String description = dis.readUTF();
-        return new Organization.Position(startDate, endDate, title, description);
-    }
 
     @Override
     public void doWrite(Resume r, OutputStream os) throws IOException {
@@ -25,16 +16,12 @@ public class DataStreamSerializer implements StreamSerializer {
             dos.writeUTF(r.getUuid());
             dos.writeUTF(r.getFullName());
 
-            Map<ContactType, String> contacts = r.getContacts();
-            dos.writeInt(contacts.size());
-            for (Map.Entry<ContactType, String> entry : contacts.entrySet()) {
+            writeList(dos, r.getContacts().entrySet(), entry -> {
                 dos.writeUTF(entry.getKey().name());
                 dos.writeUTF(entry.getValue());
-            }
+            });
 
-            Map<SectionType, Section> sections = r.getSections();
-            dos.writeInt(sections.size());
-            for (Map.Entry<SectionType, Section> entry : sections.entrySet()) {
+            writeList(dos, r.getSections().entrySet(), entry -> {
                 SectionType type = entry.getKey();
                 Section section = entry.getValue();
                 dos.writeUTF(type.name());
@@ -44,7 +31,7 @@ public class DataStreamSerializer implements StreamSerializer {
                             writeList(dos, ((ListSection) section).getItems(), dos::writeUTF);
                     case EXPERIENCE, EDUCATION -> writeOrganization(dos, (OrganizationSection) section);
                 }
-            }
+            });
         }
     }
 
@@ -79,23 +66,22 @@ public class DataStreamSerializer implements StreamSerializer {
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
 
-            int size = dis.readInt();
-            for (int i = 0; i < size; i++) {
-                resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
-            }
+            readList(dis, () -> {
+                ContactType contactType = ContactType.valueOf(dis.readUTF());
+                String value = dis.readUTF();
+                resume.addContact(contactType, value);
+                return null;
+            });
 
-            int sectionSize = dis.readInt();
-            for (int i = 0; i < sectionSize; i++) {
+            readList(dis, () -> {
                 SectionType section = SectionType.valueOf(dis.readUTF());
-                resume.addSection(section,
-                        switch (section) {
-                            case PERSONAL, OBJECTIVE -> new TextSection(dis.readUTF());
-                            case ACHIEVEMENT, QUALIFICATIONS -> new ListSection(readList(dis, dis::readUTF));
-                            case EXPERIENCE, EDUCATION ->
-                                    new OrganizationSection(readList(dis, () -> getOrganization(dis)));
-                        }
-                );
-            }
+                resume.addSection(section, switch (section) {
+                    case PERSONAL, OBJECTIVE -> new TextSection(dis.readUTF());
+                    case ACHIEVEMENT, QUALIFICATIONS -> new ListSection(readList(dis, dis::readUTF));
+                    case EXPERIENCE, EDUCATION -> new OrganizationSection(readList(dis, () -> getOrganization(dis)));
+                });
+                return null;
+            });
             return resume;
         }
     }
@@ -104,6 +90,14 @@ public class DataStreamSerializer implements StreamSerializer {
         String name = dis.readUTF();
         String url = dis.readUTF();
         return new Organization(new Link(name, url), readList(dis, () -> getPosition(dis)));
+    }
+
+    private static Organization.Position getPosition(DataInputStream dis) throws IOException {
+        LocalDate startDate = LocalDate.parse(dis.readUTF());
+        LocalDate endDate = LocalDate.parse(dis.readUTF());
+        String title = dis.readUTF();
+        String description = dis.readUTF();
+        return new Organization.Position(startDate, endDate, title, description);
     }
 
     private <T> List<T> readList(DataInputStream dis, Reader<T> reader) throws IOException {
