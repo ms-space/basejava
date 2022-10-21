@@ -6,7 +6,6 @@ public class DeadlockExample1 {
 
     public static void main(String[] args) {
         new DeadlockExample1().startThreads();
-
     }
 
     private void startThreads() {
@@ -42,7 +41,6 @@ public class DeadlockExample1 {
     }
 
     // helper methods
-
     private void sleep(int i) {
         try {
             Thread.sleep(i);

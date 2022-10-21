@@ -24,34 +24,24 @@ public class MainFile {
             }
         }
 
-
         try (FileInputStream fis = new FileInputStream(filePath)) {
             System.out.println(fis.read());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        System.out.println(dir.isDirectory());
-        System.out.println("===========================");
-
-        File dirProject = new File("./src");
-        printDirectoryDeeply(dirProject);
+        printDirectoryDeeply(dir, "");
     }
 
-
-    static void printDirectoryDeeply(File dir) throws IOException {
-        int cnt = 0;
-        String str = "";
+    public static void printDirectoryDeeply(File dir, String offset) {
         File[] files = dir.listFiles();
+
         if (files != null) {
             for (File file : files) {
-                cnt = file.getAbsolutePath().split("[\\\\]").length;
-                str = " ".repeat(cnt);
                 if (file.isFile()) {
-                    System.out.println(str + "File: " + file.getName());
+                    System.out.println(offset + "F: " + file.getName());
                 } else if (file.isDirectory()) {
-                    System.out.println(str + "Directory: " + file.getName());
-                    printDirectoryDeeply(file);
+                    System.out.println(offset + "D: " + file.getName());
+                    printDirectoryDeeply(file, offset + "  ");
                 }
             }
         }
