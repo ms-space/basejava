@@ -40,6 +40,6 @@ public class MainStreamApi {
     private static List<Integer> oddOrEven(List<Integer> integers) {
         Map<Boolean, List<Integer>> map = integers.stream().collect(partitioningBy(a -> a % 2 == 0));
 
-        return map.get(true).size() >= map.get(false).size() ? map.get(false) : map.get(true);
+        return map.get(false).size() % 2 != 0 ? map.get(true) : map.get(false);
     }
 }
