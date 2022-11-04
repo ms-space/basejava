@@ -9,10 +9,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -22,10 +19,14 @@ public abstract class AbstractStorageTest {
     protected final Storage storage;
 
     private static final String UUID_NOT_EXIST = "dummy";
-    private static final String UUID_1 = "uuid1";
-    private static final String UUID_2 = "uuid2";
-    private static final String UUID_3 = "uuid3";
-    private static final String UUID_4 = "uuid4";
+//    private static final String UUID_1 = "uuid1";
+    private static final String UUID_1 = UUID.randomUUID().toString();
+//    private static final String UUID_2 = "uuid2";
+    private static final String UUID_2 = UUID.randomUUID().toString();
+//    private static final String UUID_3 = "uuid3";
+    private static final String UUID_3 = UUID.randomUUID().toString();
+//    private static final String UUID_4 = "uuid4";
+    private static final String UUID_4 = UUID.randomUUID().toString();
 
     private static final Resume R1;
     private static final Resume R2;
