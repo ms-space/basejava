@@ -33,7 +33,7 @@ public class ResumeTestData {
 //        qualificationsData.add("DB: PostgreSQL(наследование, pgplsql, PL/Python), Redis (Jedis), H2, Oracle, MySQL, SQLite, MS SQL, HSQLDB");
 //        qualificationsData.add("Languages: Java, Scala, Python/Jython/PL-Python, JavaScript, Groovy");
 //        qualificationsData.add("XML/XSD/XSLT, SQL, C/C++, Unix shell scripts");
-//        qualificationsData.add("Java Frameworks: Java 8 (Time API, Streams), Guava, Java Executor, MyBatis, Spring (MVC, Security, Data, Clouds, Boot), JPA (Hibernate, EclipseLink), Guice, GWT(SmartGWT, ExtGWT/GXT), Vaadin, Jasperreports, Apache Commons, Eclipse SWT, JUnit, Selenium (htmlelements).");
+//        qualificationsData.add("Java Frameworks: Java 8 (Time API, Streams), Guava, Java Query, MyBatis, Spring (MVC, Security, Data, Clouds, Boot), JPA (Hibernate, EclipseLink), Guice, GWT(SmartGWT, ExtGWT/GXT), Vaadin, Jasperreports, Apache Commons, Eclipse SWT, JUnit, Selenium (htmlelements).");
 //        qualificationsData.add("Python: Django.");
 //        qualificationsData.add("JavaScript: jQuery, ExtJS, Bootstrap.js, underscore.js");
 //        qualificationsData.add("Scala: SBT, Play2, Specs2, Anorm, Spray, Akka");
