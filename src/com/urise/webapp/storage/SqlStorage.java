@@ -69,9 +69,7 @@ public class SqlStorage implements Storage {
                     }
                     Resume r = new Resume(uuid, rs.getString("full_name"));
                     do {
-                        String value = rs.getString("value");
-                        ContactType type = ContactType.valueOf(rs.getString("type"));
-                        r.addContact(type, value);
+                        addContact(rs, r);
                     } while (rs.next());
                     return r;
                 });
@@ -93,7 +91,7 @@ public class SqlStorage implements Storage {
         return sqlHelper.execute("""
                 SELECT * FROM resume r \
                     LEFT JOIN contact c \
-                ON r.uuid = c.resume_uuid \
+                    ON r.uuid = c.resume_uuid \
                 ORDER BY full_name, uuid
                 """, ps -> {
             ResultSet rs = ps.executeQuery();
@@ -105,7 +103,7 @@ public class SqlStorage implements Storage {
                     resumes.put(uuid, new Resume(uuid, rs.getString("full_name")));
                     r = resumes.get(uuid);
                 }
-                r.addContact(ContactType.valueOf(rs.getString("type")), rs.getString("value"));
+                addContact(rs, r);
                 resumes.put(uuid, r);
             }
             return resumes.values().stream().toList();
@@ -120,8 +118,17 @@ public class SqlStorage implements Storage {
         });
     }
 
+    private static void addContact(ResultSet rs, Resume r) throws SQLException {
+        String value = rs.getString("value");
+        if (value != null) {
+            ContactType type = ContactType.valueOf(rs.getString("type"));
+            r.addContact(type, value);
+        }
+    }
+
     private static void insertContacts(Resume r, Connection conn) throws SQLException {
         try (PreparedStatement ps = conn.prepareStatement("INSERT INTO contact (resume_uuid, type, value) VALUES (?,?,?)")) {
+//            String value;
             for (Map.Entry<ContactType, String> e : r.getContacts().entrySet()) {
                 ps.setString(1, r.getUuid());
                 ps.setString(2, e.getKey().name());
