@@ -11,8 +11,7 @@ import java.io.File;
 import java.time.Month;
 import java.util.*;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public abstract class AbstractStorageTest {
     protected static final File STORAGE_DIR = Config.get().getStorageDir();
@@ -36,13 +35,16 @@ public abstract class AbstractStorageTest {
         R3 = new Resume(UUID_3, "Name3");
         R4 = new Resume(UUID_4, "Name4");
 
-
         R1.addContact(ContactType.MAIL, "mail1@ya.ru");
         R1.addContact(ContactType.PHONE, "11111");
-//        R1.addSection(SectionType.OBJECTIVE, new TextSection("Objective1"));
-//        R1.addSection(SectionType.PERSONAL, new TextSection("Personal data"));
-//        R1.addSection(SectionType.ACHIEVEMENT, new ListSection("Achivment11", "Achivment12", "Achivment13"));
-//        R1.addSection(SectionType.QUALIFICATIONS, new ListSection("Java", "SQL", "JavaScript"));
+
+        R4.addContact(ContactType.PHONE, "44444");
+        R4.addContact(ContactType.SKYPE, "Skype");
+
+        R1.addSection(SectionType.OBJECTIVE, new TextSection("Objective1"));
+        R1.addSection(SectionType.PERSONAL, new TextSection("Personal data"));
+        R1.addSection(SectionType.ACHIEVEMENT, new ListSection("Achivment11", "Achivment12", "Achivment13"));
+        R1.addSection(SectionType.QUALIFICATIONS, new ListSection("Java", "SQL", "JavaScript"));
 //        R1.addSection(SectionType.EXPERIENCE,
 //                new OrganizationSection(
 //                        new Organization("Organization11", "http://Organization11.ru",
@@ -56,25 +58,11 @@ public abstract class AbstractStorageTest {
 //                        new Organization("Organization12", "http://Organization12.ru")));
         R2.addContact(ContactType.SKYPE, "skype2");
         R2.addContact(ContactType.PHONE, "22222");
-        R2.addContact(ContactType.MOBILE, "");
 //        R1.addSection(SectionType.EXPERIENCE,
 //                new OrganizationSection(
 //                        new Organization("Organization2", "http://Organization2.ru",
 //                                new Organization.Position(2015, Month.JANUARY, "position1", "content1"))));
 
-        R3.addContact(ContactType.SKYPE, "skype3");
-        R3.addContact(ContactType.PHONE, "33333");
-//        R3.addSection(SectionType.EXPERIENCE,
-//                new OrganizationSection(
-//                        new Organization("Organization3", "http://Organization3.ru",
-//                                new Organization.Position(2015, Month.JANUARY, "position1", "content1"))));
-
-        R4.addContact(ContactType.SKYPE, "skype4");
-        R4.addContact(ContactType.PHONE, "44444");
-//        R4.addSection(SectionType.EXPERIENCE,
-//                new OrganizationSection(
-//                        new Organization("Organization3", "http://Organization3.ru",
-//                                new Organization.Position(2015, Month.JANUARY, "position1", "content1"))));
     }
 
     protected AbstractStorageTest(Storage storage) {
@@ -102,9 +90,18 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void update() {
-        storage.update(R1);
-        assertEquals(R1, storage.get(R1.getUuid()));
+    public void update() throws Exception {
+        Resume newResume = new Resume(UUID_1, "New Name");
+        R1.addContact(ContactType.MAIL, "mail1@google.com");
+        R1.addContact(ContactType.SKYPE, "NewSkype");
+        R1.addContact(ContactType.MOBILE, "+7 921 222-22-22");
+        R1.addSection(SectionType.OBJECTIVE, new TextSection("Objective1"));
+        R1.addSection(SectionType.PERSONAL, new TextSection("Personal data"));
+        R1.addSection(SectionType.ACHIEVEMENT, new ListSection("Achivment11", "Achivment12", "Achivment13"));
+        R1.addSection(SectionType.QUALIFICATIONS, new ListSection("Java", "SQL", "JavaScript"));
+
+        storage.update(newResume);
+        assertTrue(newResume.equals(storage.get(UUID_1)));
     }
 
     @Test(expected = NotExistStorageException.class)
