@@ -1,6 +1,7 @@
 package com.urise.webapp.web;
 
 import com.urise.webapp.Config;
+import com.urise.webapp.model.ContactType;
 import com.urise.webapp.model.Resume;
 import com.urise.webapp.storage.Storage;
 
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class ResumeServlet extends HttpServlet {
 
-    private Storage storage;
+    private Storage storage; // = Config.get().getStorage();
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -37,27 +38,31 @@ public class ResumeServlet extends HttpServlet {
         writer.write("""
                 <html>
                        <head>
-                           <meta charset="UTF-8">
-                           <title>Таблица резюме</title>
+                           <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+                           <title>Список всех резюме</title>
                        </head>
                        <body>
-                       <table border="1" cellpadding = "5">
-                          <caption><h3>Таблица резюме</h3></caption>
+                       <section>
+                       <table border="1" cellpadding = "8" cellspacing="0">
+                          <caption><h3>Список всех резюме</h3></caption>
                           <tr>
-                           <th>UUID</th>
                            <th>Имя</th>
+                           <th>Email</th>
                           </tr>
                 """
         );
 
-        List<Resume> resumes = storage.getAllSorted();
-        for (Resume r : resumes) {
-            writer.write("" +
-                    "<tr ><td >" + r.getUuid() + "</td ><td>" + r.getFullName() + "</td ></tr>");
+        for (Resume resume : storage.getAllSorted()) {
+            writer.write(
+                    "<tr>\n" +
+                            "     <td><a href=\"resume?uuid=" + resume.getUuid() + "\">" + resume.getFullName() + "</a></td>\n" +
+                            "     <td>" + resume.getContact(ContactType.MAIL) + "</td>\n" +
+                            "</tr>\n");
         }
 
         writer.write("""
                         </table>
+                        </section>
                         </body >
                     </html >
                 """
