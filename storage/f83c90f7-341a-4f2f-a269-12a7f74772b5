@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<resume>
+    <sections/>
+    <uuid>f83c90f7-341a-4f2f-a269-12a7f74772b5</uuid>
+    <contacts>
+        <entry>
+            <key>PHONE</key>
+            <value>11111</value>
+        </entry>
+        <entry>
+            <key>MOBILE</key>
+            <value>+7 921 222-22-22</value>
+        </entry>
+        <entry>
+            <key>SKYPE</key>
+            <value>NewSkype</value>
+        </entry>
+        <entry>
+            <key>MAIL</key>
+            <value>mail1@google.com</value>
+        </entry>
+    </contacts>
+    <fullName>Name1</fullName>
+</resume>
