@@ -1,4 +1,7 @@
 <%@ page import="com.urise.webapp.model.ContactType" %>
+<%@ page import="com.urise.webapp.model.SectionType" %>
+<%@ page import="com.urise.webapp.model.ListSection" %>
+<%@ page import="com.urise.webapp.model.OrganizationSection" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -15,7 +18,7 @@
         <input type="hidden" name="uuid" value="${resume.uuid}">
         <dl>
             <dt>Имя:</dt>
-            <dd><input type="text" name="fullName" size=50 value="${resume.fullName}"></dd>
+            <dd><input type="text" required name="fullName" size=50 value="${resume.fullName}"></dd>
         </dl>
         <h3>Контакты:</h3>
         <c:forEach var="type" items="<%=ContactType.values()%>">
@@ -25,12 +28,53 @@
             </dl>
         </c:forEach>
         <h3>Секции:</h3>
-        <input type="text" name="section" size=30 value="1"><br/>
-        <input type="text" name="section" size=30 value="2"><br/>
-        <input type="text" name="section" size=30 value="3"><br/>
+        <c:forEach var="type" items="<%=SectionType.values()%>">
+            <c:set var="section" value="${resume.getSection(type)}"/>
+            <jsp:useBean id="section" type="com.urise.webapp.model.Section"/>
+            <h3>${type.title}</h3>
+            <c:choose>
+                <c:when test="${type == 'OBJECTIVE' || type == 'PERSONAL'}">
+                    <input type="text" name="${type}" size=100 value="${resume.getSection(type)}">
+                </c:when>
+                <c:when test="${type == 'ACHIEVEMENT' || type == 'QUALIFICATIONS'}">
+                    <textarea name="${type}" cols="100"
+                              rows="10"><%=String.join("\n", ((ListSection) section).getItems())%></textarea>
+                </c:when>
+                <c:when test="${type == 'EXPERIENCE' || type == 'EDUCATION'}">
+                    <dl>
+                        <c:forEach var="org" items="<%=((OrganizationSection)section).getOrganizations()%>">
+                            <dt>Название организации:</dt>
+                            <dd><input type="text" name="${type}-name" size=100 value="${org.homePage.name}"></dd>
+                            <dt>Сайт организации:</dt>
+                            <dd><input type="text" name="${type}-url" size=100 value="${org.homePage.url}"></dd>
+                            <c:forEach var="position" items="${org.positions}">
+                                <dt>Начальная дата:</dt>
+                                <dd>
+                                    <input type="text" name="${type}-startDate" size=10 value="${position.startDate}">
+                                </dd>
+                                <dt>Конечная дата:</dt>
+                                <dd>
+                                    <input type="text" name="${type}-endDate" size=10 value="${position.endDate}">
+                                </dd>
+                                <dt>Должность:</dt>
+                                <dd>
+                                    <input type="text" name="${type}-title" size=100 value="${position.title}">
+                                </dd>
+                                <dt>Описание:</dt>
+                                <dd>
+                                      <textarea name="${type}-description" cols="100" rows="5">${position.description}
+                                      </textarea>
+                                </dd>
+                            </c:forEach>
+                            <hr>
+                        </c:forEach>
+                    </dl>
+                </c:when>
+            </c:choose>
+        </c:forEach>
         <hr>
         <button type="submit">Сохранить</button>
-        <button onclick="window.history.back()">Отменить</button>
+        <button type="reset" onclick="window.history.back()">Отменить</button>
     </form>
 </section>
 <jsp:include page="fragments/footer.jsp"/>
