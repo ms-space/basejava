@@ -42,27 +42,32 @@
                 </c:when>
                 <c:when test="${type == 'EXPERIENCE' || type == 'EDUCATION'}">
                     <dl>
-                        <c:forEach var="org" items="<%=((OrganizationSection)section).getOrganizations()%>">
+                        <c:forEach var="org" items="<%=((OrganizationSection)section).getOrganizations()%>"
+                                   varStatus="number">
                             <dt>Название организации:</dt>
-                            <dd><input type="text" name="${type}-name" size=100 value="${org.homePage.name}"></dd>
+                            <dd><input type="text" name="${type}" size=100 value="${org.homePage.name}"></dd>
                             <dt>Сайт организации:</dt>
-                            <dd><input type="text" name="${type}-url" size=100 value="${org.homePage.url}"></dd>
+                            <dd><input type="text" name="${type}url" size=100 value="${org.homePage.url}"></dd>
                             <c:forEach var="position" items="${org.positions}">
                                 <dt>Начальная дата:</dt>
                                 <dd>
-                                    <input type="text" name="${type}-startDate" size=10 value="${position.startDate}">
+                                    <input type="text" name="${type}${number.index}startDate" size=10
+                                           value="${position.startDate}">
                                 </dd>
                                 <dt>Конечная дата:</dt>
                                 <dd>
-                                    <input type="text" name="${type}-endDate" size=10 value="${position.endDate}">
+                                    <input type="text" name="${type}${number.index}endDate" size=10
+                                           value="${position.endDate}">
                                 </dd>
                                 <dt>Должность:</dt>
                                 <dd>
-                                    <input type="text" name="${type}-title" size=100 value="${position.title}">
+                                    <input type="text" name="${type}${number.index}title" size=100
+                                           value="${position.title}">
                                 </dd>
                                 <dt>Описание:</dt>
                                 <dd>
-                                      <textarea name="${type}-description" cols="100" rows="5">${position.description}
+                                      <textarea name="${type}${number.index}description" cols="100"
+                                                rows="5">${position.description}
                                       </textarea>
                                 </dd>
                             </c:forEach>
