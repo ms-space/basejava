@@ -2,6 +2,7 @@
 <%@ page import="com.urise.webapp.model.SectionType" %>
 <%@ page import="com.urise.webapp.model.ListSection" %>
 <%@ page import="com.urise.webapp.model.OrganizationSection" %>
+<%@ page import="com.urise.webapp.util.DateUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -49,15 +50,16 @@
                             <dt>Сайт организации:</dt>
                             <dd><input type="text" name="${type}url" size=100 value="${org.homePage.url}"></dd>
                             <c:forEach var="position" items="${org.positions}">
+                                <jsp:useBean id="position" type="com.urise.webapp.model.Organization.Position"/>
                                 <dt>Начальная дата:</dt>
                                 <dd>
                                     <input type="text" name="${type}${number.index}startDate" size=10
-                                           value="${position.startDate}">
+                                           value="<%=DateUtil.format(position.getStartDate())%>" placeholder="MM/yyyy">
                                 </dd>
                                 <dt>Конечная дата:</dt>
                                 <dd>
-                                    <input type="text" name="${type}${number.index}endDate" size=10
-                                           value="${position.endDate}">
+                                    <input type=" text" name="${type}${number.index}endDate" size=10
+                                           value="<%=DateUtil.format(position.getEndDate())%>" placeholder="MM/yyyy">
                                 </dd>
                                 <dt>Должность:</dt>
                                 <dd>
@@ -67,8 +69,7 @@
                                 <dt>Описание:</dt>
                                 <dd>
                                       <textarea name="${type}${number.index}description" cols="100"
-                                                rows="5">${position.description}
-                                      </textarea>
+                                                rows="5">${position.description}</textarea>
                                 </dd>
                             </c:forEach>
                             <hr>

@@ -3,6 +3,7 @@ package com.urise.webapp.web;
 import com.urise.webapp.Config;
 import com.urise.webapp.model.*;
 import com.urise.webapp.storage.Storage;
+import com.urise.webapp.util.DateUtil;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -10,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -74,7 +74,7 @@ public class ResumeServlet extends HttpServlet {
                                 String[] descriptions = request.getParameterValues(type.name() + i + "description");
                                 for (int j = 0; j < titles.length; j++) {
                                     if (titles[j] != null && titles[j].trim().length() != 0) {
-                                        positions.add(new Organization.Position(LocalDate.parse(startDates[j].trim()), LocalDate.parse(endDates[j].trim()), titles[j].trim(), descriptions[j].trim()));
+                                        positions.add(new Organization.Position(DateUtil.parse(startDates[j]), DateUtil.parse(endDates[j]), titles[j].trim(), descriptions[j].trim()));
                                     }
                                 }
                                 orgs.add(new Organization(new Link(name, urls[i].trim()), positions));
@@ -150,8 +150,10 @@ public class ResumeServlet extends HttpServlet {
                     switch (type) {
                         case OBJECTIVE, PERSONAL -> r.addSection(type, new TextSection(""));
                         case ACHIEVEMENT, QUALIFICATIONS -> r.addSection(type, new ListSection(""));
-                        case EXPERIENCE, EDUCATION ->
-                                r.addSection(type, new OrganizationSection(new Organization("", "", new Organization.Position())));
+                        case EXPERIENCE, EDUCATION -> {
+                            r.addSection(type, new OrganizationSection(new Organization("", "", new Organization.Position())));
+                            System.out.println(r);
+                        }
                     }
                 }
                 break;

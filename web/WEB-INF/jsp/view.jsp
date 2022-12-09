@@ -1,6 +1,7 @@
 <%@ page import="com.urise.webapp.model.TextSection" %>
 <%@ page import="com.urise.webapp.model.ListSection" %>
 <%@ page import="com.urise.webapp.model.OrganizationSection" %>
+<%@ page import="com.urise.webapp.util.DateUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -46,11 +47,13 @@
     <p>
         <c:forEach var="org" items="<%=((OrganizationSection)section).getOrganizations()%>">
         <a href="${org.homePage.url}">${org.homePage.name}</a><br>
-        <c:forEach var="position" items="${org.positions}">
-            ${position.startDate} ${position.endDate}<br/>
-            ${position.title}<br/>
-            ${position.description}<br/>
-        </c:forEach>
+            <c:forEach var="position" items="${org.positions}">
+                <jsp:useBean id="position" type="com.urise.webapp.model.Organization.Position"/>
+                    <%=DateUtil.format(position.getStartDate())%> <br>
+                    <%=DateUtil.format(position.getEndDate())%> <br>
+                ${position.title}<br/>
+                ${position.description}<br/>
+            </c:forEach>
         </c:forEach>
         </c:when>
         </c:choose>
