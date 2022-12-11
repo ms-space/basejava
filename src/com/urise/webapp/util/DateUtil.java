@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 public class DateUtil {
     static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("MM/yyyy");
@@ -16,10 +17,13 @@ public class DateUtil {
 
     public static String format(LocalDate date) {
         if (date == null) return "";
-        return date.equals(NOW) ? "Сейчас" : date.format(DATE_TIME_FORMATTER);
+        LocalDate firstDay = LocalDate.now().withDayOfMonth(1);
+        return (date.isEqual(firstDay) || date.isAfter(firstDay)) ? "Сейчас" : date.format(DATE_TIME_FORMATTER);
+
     }
 
     public static LocalDate parse(String date) {
+        if (Objects.equals(date.trim(), "") || date.equals("Сейчас")) return NOW;
         YearMonth yearMonth = YearMonth.parse(date, DATE_TIME_FORMATTER);
         return LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), 1);
     }

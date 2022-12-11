@@ -46,14 +46,21 @@
     <c:when test="${type == 'EXPERIENCE' || type == 'EDUCATION'}">
     <p>
         <c:forEach var="org" items="<%=((OrganizationSection)section).getOrganizations()%>">
+        <c:choose>
+        <c:when test="${empty org.homePage.url}">
+            ${org.homePage.name}<br>
+        </c:when>
+        <c:otherwise>
         <a href="${org.homePage.url}">${org.homePage.name}</a><br>
-            <c:forEach var="position" items="${org.positions}">
-                <jsp:useBean id="position" type="com.urise.webapp.model.Organization.Position"/>
-                    <%=DateUtil.format(position.getStartDate())%> <br>
-                    <%=DateUtil.format(position.getEndDate())%> <br>
-                ${position.title}<br/>
-                ${position.description}<br/>
-            </c:forEach>
+        </c:otherwise>
+        </c:choose>
+        <c:forEach var="position" items="${org.positions}">
+            <jsp:useBean id="position" type="com.urise.webapp.model.Organization.Position"/>
+                <%=DateUtil.format(position.getStartDate())%> <br>
+                <%=DateUtil.format(position.getEndDate())%> <br>
+            ${position.title}<br/>
+            ${position.description}<br/>
+        </c:forEach>
         </c:forEach>
         </c:when>
         </c:choose>
