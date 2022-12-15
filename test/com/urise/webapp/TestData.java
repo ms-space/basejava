@@ -27,21 +27,21 @@ public class TestData {
         R3 = new Resume(UUID_3, "Name3");
         R4 = new Resume(UUID_4, "Name4");
 
-        R1.addContact(ContactType.MOBILE, "+7(921) 855-0482");
-        R1.addContact(ContactType.MOBILE, "+7(921) 855-0482");
-        R1.addContact(ContactType.SKYPE, "skype:grigory.kislin");
-        R1.addContact(ContactType.MAIL, "gkislin@yandex.ru");
-        R1.addContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
-        R1.addContact(ContactType.GITHUB, "https://github.com/gkislin");
-        R1.addContact(ContactType.STATCKOVERFLOW, "https://stackoverflow.com/users/548473");
-        R1.addContact(ContactType.HOME_PAGE, "http://gkislin.ru/");
+        R1.setContact(ContactType.MOBILE, "+7(921) 855-0482");
+        R1.setContact(ContactType.MOBILE, "+7(921) 855-0482");
+        R1.setContact(ContactType.SKYPE, "skype:grigory.kislin");
+        R1.setContact(ContactType.MAIL, "gkislin@yandex.ru");
+        R1.setContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
+        R1.setContact(ContactType.GITHUB, "https://github.com/gkislin");
+        R1.setContact(ContactType.STATCKOVERFLOW, "https://stackoverflow.com/users/548473");
+        R1.setContact(ContactType.HOME_PAGE, "http://gkislin.ru/");
 
-        R1.addSection(SectionType.OBJECTIVE, new TextSection(
+        R1.setSection(SectionType.OBJECTIVE, new TextSection(
                 "Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"));
-        R1.addSection(SectionType.PERSONAL, new TextSection(
+        R1.setSection(SectionType.PERSONAL, new TextSection(
                 "Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры."));
 
-        R1.addSection(SectionType.ACHIEVEMENT, new ListSection(
+        R1.setSection(SectionType.ACHIEVEMENT, new ListSection(
                 "Организация команды и успешная реализация Java проектов для сторонних заказчиков: приложения автопарк на стеке Spring Cloud/микросервисы, система мониторинга показателей спортсменов на Spring Boot, участие в проекте МЭШ на Play-2, многомодульный Spring Boot + Vaadin проект для комплексных DIY смет",
                 "С 2013 года: разработка проектов \"Разработка Web приложения\",\"Java Enterprise\", \"Многомодульный maven. Многопоточность. XML (JAXB/StAX). Веб сервисы (JAX-RS/SOAP). Удаленное взаимодействие (JMS/AKKA)\". Организация онлайн стажировок и ведение проектов. Более 3500 выпускников.",
                 "Реализация двухфакторной аутентификации для онлайн платформы управления проектами Wrike. Интеграция с Twilio, DuoSecurity, Google Authenticator, Jira, Zendesk.",
@@ -51,7 +51,7 @@ public class TestData {
                 "Реализация протоколов по приему платежей всех основных платежных системы России (Cyberplat, Eport, Chronopay, Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа."
         ));
 
-        R1.addSection(SectionType.QUALIFICATIONS, new ListSection(
+        R1.setSection(SectionType.QUALIFICATIONS, new ListSection(
                 "JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2",
                 "Version control: Subversion, Git, Mercury, ClearCase, Perforce",
                 "DB: PostgreSQL(наследование, pgplsql, PL/Python), Redis (Jedis), H2, Oracle, MySQL, SQLite, MS SQL, HSQLDB",
@@ -68,7 +68,7 @@ public class TestData {
                 "Родной русский, английский \"upper intermediate\""
         ));
 
-        R1.addSection(SectionType.EXPERIENCE, new OrganizationSection(
+        R1.setSection(SectionType.EXPERIENCE, new OrganizationSection(
                 new Organization("Java Online Projects", "http://javaops.ru/",
                         new Organization.Position(DateUtil.of(2013, Month.of(10)), LocalDate.now(), "Автор проекта.", "Создание, организация и проведение Java онлайн проектов и стажировок.")),
                 new Organization("Wrike", "https://www.wrike.com/",
@@ -85,7 +85,7 @@ public class TestData {
                         new Organization.Position(DateUtil.of(1997, Month.of(9)), DateUtil.of(2005, Month.of(1)), "Инженер по аппаратному и программному тестированию", "Тестирование, отладка, внедрение ПО цифровой телефонной станции Alcatel 1000 S12 (CHILL, ASM)."))));
 
 
-        R1.addSection(SectionType.EDUCATION, new OrganizationSection(
+        R1.setSection(SectionType.EDUCATION, new OrganizationSection(
                 new Organization("Coursera", "https://www.coursera.org/course/progfun",
                         new Organization.Position(DateUtil.of(2013, Month.of(3)), DateUtil.of(2013, Month.of(5)), "'Functional Programming Principles in Scala' by Martin Odersky", "")),
                 new Organization("Luxoft", "http://www.luxoft-training.ru/training/catalog/course.html?ID=22366",
@@ -100,22 +100,22 @@ public class TestData {
                 new Organization("Заочная физико-техническая школа при МФТИ", "http://www.school.mipt.ru/",
                         new Organization.Position(DateUtil.of(2013, Month.of(10)), DateUtil.of(2016, Month.of(1)), "Закончил с отличием", ""))));
 
-        R2.addContact(ContactType.MAIL, "mail1@ya.ru");
-        R2.addContact(ContactType.PHONE, "11111");
-        R2.addSection(SectionType.OBJECTIVE, new TextSection("Objective1"));
-        R2.addSection(SectionType.PERSONAL, new TextSection("Personal data"));
-        R2.addSection(SectionType.ACHIEVEMENT, new ListSection("Achivment11", "Achivment12", "Achivment13"));
-        R2.addSection(SectionType.QUALIFICATIONS, new ListSection("Java", "SQL", "JavaScript"));
-        R2.addSection(SectionType.EXPERIENCE,
+        R2.setContact(ContactType.MAIL, "mail1@ya.ru");
+        R2.setContact(ContactType.PHONE, "11111");
+        R2.setSection(SectionType.OBJECTIVE, new TextSection("Objective1"));
+        R2.setSection(SectionType.PERSONAL, new TextSection("Personal data"));
+        R2.setSection(SectionType.ACHIEVEMENT, new ListSection("Achivment11", "Achivment12", "Achivment13"));
+        R2.setSection(SectionType.QUALIFICATIONS, new ListSection("Java", "SQL", "JavaScript"));
+        R2.setSection(SectionType.EXPERIENCE,
                 new OrganizationSection(
                         new Organization("Organization11", "http://Organization11.ru",
                                 new Organization.Position(2005, Month.JANUARY, "position1", "content1"),
                                 new Organization.Position(2001, Month.MARCH, 2005, Month.JANUARY, "position2", "content2"))));
-        R2.addSection(SectionType.EXPERIENCE,
+        R2.setSection(SectionType.EXPERIENCE,
                 new OrganizationSection(
                         new Organization("Organization2", "http://Organization2.ru",
                                 new Organization.Position(2015, Month.JANUARY, "position1", "content1"))));
-        R2.addSection(SectionType.EDUCATION,
+        R2.setSection(SectionType.EDUCATION,
                 new OrganizationSection(
                         new Organization("Institute", null,
                                 new Organization.Position(1996, Month.JANUARY, 2000, Month.DECEMBER, "aspirant", null),
@@ -125,24 +125,24 @@ public class TestData {
                                 new Organization.Position(2003, Month.MARCH, 2005, Month.JANUARY, "student1", "IT facultet"))
                 ));
 
-        R3.addContact(ContactType.SKYPE, "skype2");
-        R3.addContact(ContactType.PHONE, "22222");
-        R3.addContact(ContactType.MAIL, "mail1@ya.ru");
-        R3.addSection(SectionType.OBJECTIVE, new TextSection("Objective1"));
-        R3.addSection(SectionType.PERSONAL, new TextSection("Personal data"));
-        R3.addSection(SectionType.ACHIEVEMENT, new ListSection("Achivment11", "Achivment12", "Achivment13"));
-        R3.addSection(SectionType.QUALIFICATIONS, new ListSection("Java", "SQL", "JavaScript"));
-        R3.addSection(SectionType.EXPERIENCE, new OrganizationSection(
+        R3.setContact(ContactType.SKYPE, "skype2");
+        R3.setContact(ContactType.PHONE, "22222");
+        R3.setContact(ContactType.MAIL, "mail1@ya.ru");
+        R3.setSection(SectionType.OBJECTIVE, new TextSection("Objective1"));
+        R3.setSection(SectionType.PERSONAL, new TextSection("Personal data"));
+        R3.setSection(SectionType.ACHIEVEMENT, new ListSection("Achivment11", "Achivment12", "Achivment13"));
+        R3.setSection(SectionType.QUALIFICATIONS, new ListSection("Java", "SQL", "JavaScript"));
+        R3.setSection(SectionType.EXPERIENCE, new OrganizationSection(
                 new Organization("Organization11", "http://Organization11.ru",
                         new Organization.Position(2005, Month.JANUARY, "position1", "content1"),
                         new Organization.Position(2001, Month.MARCH, 2005, Month.JANUARY, "position2", "content2"))));
-        R3.addSection(SectionType.EDUCATION, new OrganizationSection(
+        R3.setSection(SectionType.EDUCATION, new OrganizationSection(
                 new Organization("Institute", null,
                         new Organization.Position(1996, Month.JANUARY, 2000, Month.DECEMBER, "aspirant", null),
                         new Organization.Position(2001, Month.MARCH, 2005, Month.JANUARY, "student", "IT facultet"))
         ));
 
-        R4.addContact(ContactType.PHONE, "44444");
-        R4.addContact(ContactType.SKYPE, "Skype");
+        R4.setContact(ContactType.PHONE, "44444");
+        R4.setContact(ContactType.SKYPE, "Skype");
     }
 }

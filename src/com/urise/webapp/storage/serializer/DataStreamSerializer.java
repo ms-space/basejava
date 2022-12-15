@@ -69,13 +69,13 @@ public class DataStreamSerializer implements StreamSerializer {
             readList(dis, () -> {
                 ContactType contactType = ContactType.valueOf(dis.readUTF());
                 String value = dis.readUTF();
-                resume.addContact(contactType, value);
+                resume.setContact(contactType, value);
                 return null;
             });
 
             readList(dis, () -> {
                 SectionType section = SectionType.valueOf(dis.readUTF());
-                resume.addSection(section, switch (section) {
+                resume.setSection(section, switch (section) {
                     case PERSONAL, OBJECTIVE -> new TextSection(dis.readUTF());
                     case ACHIEVEMENT, QUALIFICATIONS -> new ListSection(readList(dis, dis::readUTF));
                     case EXPERIENCE, EDUCATION -> new OrganizationSection(readList(dis, () -> getOrganization(dis)));

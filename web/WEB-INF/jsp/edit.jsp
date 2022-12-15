@@ -8,7 +8,9 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/theme/${theme}.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/edit-resume-styles.css">
     <jsp:useBean id="resume" type="com.urise.webapp.model.Resume" scope="request"/>
     <title>Резюме ${resume.fullName}</title>
 </head>
@@ -17,73 +19,93 @@
 <section>
     <form method="post" action="resume" enctype="application/x-www-form-urlencoded">
         <input type="hidden" name="uuid" value="${resume.uuid}">
-        <dl>
-            <dt>Имя:</dt>
-            <dd><input type="text" required name="fullName" size=50 value="${resume.fullName}"></dd>
-        </dl>
-        <h3>Контакты:</h3>
-        <c:forEach var="type" items="<%=ContactType.values()%>">
-            <dl>
-                <dt>${type.title}</dt>
-                <dd><input type="text" name="${type.name()}" size=30 value="${resume.getContact(type)}"></dd>
-            </dl>
-        </c:forEach>
-        <h3>Секции:</h3>
-        <c:forEach var="type" items="<%=SectionType.values()%>">
-            <c:set var="section" value="${resume.getSection(type)}"/>
-            <jsp:useBean id="section" type="com.urise.webapp.model.Section"/>
-            <h3>${type.title}</h3>
-            <c:choose>
-                <c:when test="${type == 'OBJECTIVE' || type == 'PERSONAL'}">
-                    <input type="text" name="${type}" size=100 value="${resume.getSection(type)}">
-                </c:when>
-                <c:when test="${type == 'ACHIEVEMENT' || type == 'QUALIFICATIONS'}">
-                    <textarea name="${type}" cols="100"
-                              rows="10"><%=String.join("\n", ((ListSection) section).getItems())%></textarea>
-                </c:when>
-                <c:when test="${type == 'EXPERIENCE' || type == 'EDUCATION'}">
-                    <dl>
-                        <c:forEach var="org" items="<%=((OrganizationSection)section).getOrganizations()%>"
-                                   varStatus="number">
-                            <dt>Название организации:</dt>
-                            <dd><input type="text" name="${type}" size=100 value="${org.homePage.name}"></dd>
-                            <dt>Сайт организации:</dt>
-                            <dd><input type="text" name="${type}url" size=100 value="${org.homePage.url}"></dd>
-                            <c:forEach var="position" items="${org.positions}">
-                                <jsp:useBean id="position" type="com.urise.webapp.model.Organization.Position"/>
-                                <dt>Начальная дата:</dt>
-                                <dd>
-                                    <input type="text" name="${type}${number.index}startDate" size=10
-                                           value="<%=DateUtil.format(position.getStartDate())%>" placeholder="MM/yyyy">
-                                </dd>
-                                <dt>Конечная дата:</dt>
-                                <dd>
-                                    <input type=" text" name="${type}${number.index}endDate" size=10
-                                           value="<%=DateUtil.format(position.getEndDate())%>" placeholder="MM/yyyy">
-                                </dd>
-                                <dt>Должность:</dt>
-                                <dd>
-                                    <input type="text" name="${type}${number.index}title" size=100
-                                           value="${position.title}">
-                                </dd>
-                                <dt>Описание:</dt>
-                                <dd>
-                                      <textarea name="${type}${number.index}description" cols="100"
-                                                rows="5">${position.description}</textarea>
-                                </dd>
+        <input type="hidden" name="theme" value="${theme}">
+        <div class="scrollable-panel">
+            <div class="form-wrapper">
+                <div class="section">ФИО</div>
+                <input class="field" type="text" name="fullName" size=55 placeholder="ФИО" value="${resume.fullName}"
+                       required>
+
+                <div class="section">Контакты</div>
+
+                <c:forEach var="type" items="<%=ContactType.values()%>">
+                    <input class="field" type="text" name="${type.name()}" size=30 placeholder="${type.title}"
+                           value="${resume.getContact(type)}">
+                </c:forEach>
+
+                <div class="spacer"></div>
+
+                <div class="section">Секции</div>
+
+                <c:forEach var="type" items="<%=SectionType.values()%>">
+                    <c:set var="section" value="${resume.getSection(type)}"/>
+                    <jsp:useBean id="section" type="com.urise.webapp.model.Section"/>
+                    <div class="field-label">${type.title}</div>
+                    <c:choose>
+                        <c:when test="${type=='OBJECTIVE' || type=='PERSONAL'}">
+                            <textarea class="field" name='${type}'><%=section%></textarea>
+                        </c:when>
+                        <c:when test="${type=='QUALIFICATIONS' || type=='ACHIEVEMENT'}">
+                            <textarea class="field"
+                                      name='${type}'><%=String.join("\n", ((ListSection) section).getItems())%></textarea>
+                        </c:when>
+                        <c:when test="${type=='EXPERIENCE' || type=='EDUCATION'}">
+                            <c:forEach var="org" items="<%=((OrganizationSection) section).getOrganizations()%>"
+                                       varStatus="counter">
+                                <c:choose>
+                                    <c:when test="${counter.index == 0}">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="spacer"></div>
+                                    </c:otherwise>
+                                </c:choose>
+
+<%--                                <button class="green-button">Добавить</button>--%>
+
+                                <input class="field" type="text" placeholder="Название" name='${type}' size=100
+                                       value="${org.homePage.name}">
+                                <input class="field" type="text" placeholder="Ссылка" name='${type}url' size=100
+                                       value="${org.homePage.url}">
+
+<%--                                <button class="small-green-button">Добавить должность</button>--%>
+
+                                <c:forEach var="pos" items="${org.positions}">
+                                    <jsp:useBean id="pos" type="com.urise.webapp.model.Organization.Position"/>
+
+                                    <div class="date-section">
+                                        <input class="field date" name="${type}${counter.index}startDate"
+                                               placeholder="Начало, ММ/ГГГГ"
+                                               size=10
+                                               value="<%=DateUtil.format(pos.getStartDate())%>">
+                                        <input class="field date date-margin" name="${type}${counter.index}endDate"
+                                               placeholder="Окончание, ММ/ГГГГ"
+                                               size=10
+                                               value="<%=DateUtil.format(pos.getEndDate())%>">
+                                    </div>
+
+                                    <input class="field" type="text" placeholder="Заголовок"
+                                           name='${type}${counter.index}title' size=75
+                                           value="${pos.title}">
+                                    <textarea class="field" placeholder="Описание"
+                                              name="${type}${counter.index}description">${pos.description}</textarea>
+
+                                </c:forEach>
                             </c:forEach>
-                            <hr>
-                        </c:forEach>
-                    </dl>
-                </c:when>
-            </c:choose>
-        </c:forEach>
-        <hr>
-        <button type="submit">Сохранить</button>
-        <button type="reset" onclick="window.history.back()">Отменить</button>
+                        </c:when>
+                    </c:choose>
+                </c:forEach>
+
+                <div class="spacer"></div>
+
+                <div class="button-section">
+                    <button class="red-cancel-button" type="button" onclick="window.history.back()">Отменить</button>
+                    <button class="green-submit-button" type="submit">Сохранить</button>
+                </div>
+
+            </div>
+        </div>
     </form>
-</section>
-<jsp:include page="fragments/footer.jsp"/>
+    <jsp:include page="fragments/footer.jsp"/>
 </body>
 </html>
 

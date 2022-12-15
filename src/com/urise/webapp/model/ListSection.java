@@ -9,6 +9,8 @@ public class ListSection extends Section {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    public static final ListSection EMPTY = new ListSection("");
+
     private List<String> items;
 
     public ListSection() {
@@ -36,7 +38,9 @@ public class ListSection extends Section {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         ListSection that = (ListSection) o;
+
         return items.equals(that.items);
     }
 
