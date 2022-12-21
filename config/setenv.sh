@@ -1,0 +1,1 @@
+export CATALINA_OPTS=-DhomeDir="$CATALINA_HOME/webapps/resumes/WEB-INF/classes"

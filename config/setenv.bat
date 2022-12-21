@@ -1,0 +1,1 @@
+set CATALINA_OPTS=-DhomeDir="../webapps/resumes/WEB-INF/classes/"

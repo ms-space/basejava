@@ -10,7 +10,11 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class Config {
-    private static final File PROPS = new File(getHomeDir(), "config\\resumes.properties");
+
+//    Add VM Options Tomcat configurations Intellij IDEA
+//    -DhomeDir="D:\JavaProject\basejava\config"
+
+    private static final File PROPS = new File(getHomeDir(),"/resumes.properties");
     private static final Config INSTANCE = new Config();
 
     private final File storageDir;
@@ -41,7 +45,8 @@ public class Config {
 
     private static File getHomeDir() {
         String prop = System.getProperty("homeDir");
-        File homeDir = new File(prop == null ? "." : prop);
+//        File homeDir = new File(prop == null ? "." : prop);
+        File homeDir = new File(prop == null ? "config" : prop);
         if (!homeDir.isDirectory()) {
             throw new IllegalStateException(homeDir + " is not directory");
         }
