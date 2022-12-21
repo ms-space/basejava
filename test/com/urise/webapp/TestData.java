@@ -22,7 +22,7 @@ public class TestData {
 
     static {
 
-        R1 = new Resume(UUID_1, "Григорий Кислин");
+        R1 = new Resume(UUID_1, "Name1");
         R2 = new Resume(UUID_2, "Name2");
         R3 = new Resume(UUID_3, "Name3");
         R4 = new Resume(UUID_4, "Name4");
